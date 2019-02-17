@@ -1,1 +1,33 @@
-this is so it can upload
+<!DOCTYPE html>
+<html>
+<style>
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 270px;
+  cursor: pointer;
+}
+div.relative {
+  position: relative;
+  left: 290px;
+}
+
+</style>
+<body style="background-color:black;">
+<div class="relative">
+<h1>
+<font color="green">Welcome</font>
+</h1>
+</div>
+
+
+
+<a href="beginer.html" class="button">Click to begin simulation</a>
+</body>
+</html>
