@@ -1,0 +1,50 @@
+body
+{
+	background-color: black;
+	background-image: radial-gradient(rgba(0,150,0,0.75), black 120%);
+	height: 100vh;
+}
+h1
+{
+	font-family: Courier, monospace;
+	font-size: 24;
+	color: white;
+	text-align: Center;
+}
+h2
+{
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+	text-align: Center;
+}
+.nav-menu
+{
+	float: left;
+	top: 50px;
+}
+.nav-menu li
+{
+	padding: 25px;
+	display: inline-block;
+}
+.nav-menu li a
+{
+	text-decoration: none;
+	color: white;
+	text-align: center;
+	font-size: 18px;
+	font-size: 2vw;
+	font-family: Courier, monospace;
+}
+.nav-menu li a:hover
+{
+	border: 3px solid black;
+}
+.pg_ptags
+{
+	color: white;
+	font-size: 18px;
+	font-size: 2vw;
+	font-family: Courier, monospace;
+}
