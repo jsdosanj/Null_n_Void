@@ -1,0 +1,128 @@
+body
+{
+	background-color: black;
+	background-image: radial-gradient(rgba(0,150,0,0.75), black 120%);
+	height: 100vh;
+}
+h1
+{
+	font-family: Courier, monospace;
+	font-size: 1vw;
+	color: white;
+	text-align: Center;
+}
+h2
+{
+	font-family: Courier, monospace;
+	font-size: 1vw;
+	color: white;
+	text-align: Center;
+}
+p
+{
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+	text-align: Center;
+}
+.nav-menu
+{
+	text-align: center;
+	position: relative;
+	top: 50px;
+}
+.nav-menu li
+{
+	padding: 25px;
+	display: inline-block;
+}
+.nav-menu li a
+{
+	text-decoration: none;
+	color: white;
+	text-align: center;
+	font-size: 18px;
+	font-size: 2vw;
+	font-family: Courier, monospace;
+}
+.nav-menu li a:hover
+{
+	background: white;
+	color: black;
+}
+.pg_thanks
+{
+	position: absolute;
+	top: 225px;
+}
+header
+{
+	font-family: Courier, monospace;
+	font-size: 26;
+	color: white;
+	text-align: Center;
+}
+.pg_rules
+{
+	position: relative;
+	top: 325px;
+}
+.pg_rules ol 
+{
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+}
+.start_button
+{
+	text-align: center;
+	position: relative;
+	top: -100px;
+}
+.start_button a 
+{
+	text-decoration: none;
+	font-family: Courier, monospace;
+	font-size: 48;
+	color: white;
+	text-align: Center;
+	
+}
+.start_button a:hover
+{
+	background: white;
+	color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
