@@ -2,16 +2,14 @@ package nullnvoid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class Distance_Code {
    public static void main(String[] args) throws IOException {
-       int rWord = (int )(Math.random() * 50 + 1);
+       int rWord = (int )(Math.random() * 50);
             //Put sWord in loop to generate the "Other Words" Must make nested loop for correct word to be randomly placed in a table
-       int sWord = (int )(Math.random() * 50 + 1);
+       int sWord = (int )(Math.random() * 50);
        // write code to ouput here
        String fileWord3 = Files.readAllLines(Paths.get("char3.txt")).get(rWord);
        //String fileWord4 = Files.readAllLines(Paths.get("char4.txt")).get(rWord);
@@ -88,5 +86,12 @@ public class Distance_Code {
                }
            }
            return ((-1)*(d[n][m]))+(n);
+       }
+       public static void createGameSpace(){
+           //Code to draw gamespace and set page with random characters and the Words
+}
+       public static void gameSpaceRandomizer(){
+           //code to create matrix of random words to display and make them clickable
+           //random spot should be same string as the fileWordn (fileWord3...fileWord4...)
        }
 }
