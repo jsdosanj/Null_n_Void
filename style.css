@@ -47,7 +47,7 @@ header
 	font-size: 26;
 	color: white;
 	text-align: Center;
-	text-shadow: 0 0 7px #C8C8C8;
+	text-shadow: 0 0 20px #C8C8C8;
 }
 .pg_rules
 {
@@ -127,7 +127,7 @@ header
 }
 .index_title header
 {
-	font-size: 52;
+	font-size: 200;
 }
 .faq_question_three ul li
 {
