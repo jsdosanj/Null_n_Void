@@ -10,17 +10,42 @@
 		Leaderboards
 	</header>
 
-		<div class="column_header_pn">
-			<p>
-				Player Name
-			</p>
-		</div>
-		
-		<div class="column_header_sc">
-			<p>
-				Score
-			</p>
-		</div>
+		function Player(myName, myDate, myScore) {
+        this.name = myName;
+        this.date = myDate;
+        this.score = myScore;
+    }
+
+    // Create new players
+    player1 = new Player("Noah", "01/23/18", 201);
+    player2 = new Player("Trevor", "03/24/17", 943);
+    player3 = new Player("Daniel", "06/04/18", 79); 
+    Players = [player1, player2, player3];
+
+    function displayLeaderboard() {
+        let theExport = ""; 
+        Players.sort((aPlayer, bPlayer) => aPlayer.score - bPlayer.score);
+        Players.forEach((player) => theExport += '<tr><td>' + player.name + '</td><td>' + player.score + '</td></tr>');
+        document.getElementById("thingy").innerHTML = theExport; //Why have good ID's when you can have bad ones? | Who needs children when we can use innerHTML?
+    }
+
+    displayLeaderboard(); /
+	table {
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #aaa;
+        padding: 5px;
+        text-align: left;
+    }
+	<table>
+    <thead>
+      <th>Player</th><th>Score</th>
+    </thead>
+    <tbody id="thingy"></tbody>
+</table>
 
 </body>
 </html>
