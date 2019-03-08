@@ -12,10 +12,16 @@ import javax.swing.JPanel;
 
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -24,42 +30,73 @@ import javafx.stage.Stage;
  * @author dharb
  */
 public class NullnVoid extends Application {
-  String[][] gameSpace = new String[7][7];
+ String[][] gameSpace = new String[7][7];
+ int rows = 7;
+ int columns = 7;
+ String winWord;
+
  @Override
  public void start(Stage primaryStage) throws IOException {
   gameSpaceRandomizer();
 
-  //creating the gridpane and adding labels to it using the gameSpace array
+  //Creating the gridpane and adding labels to it using the gameSpace array
   GridPane pane = new GridPane();
+
   for (int x = 0; x < gameSpace.length; x++) {
    for (int y = 0; y < gameSpace.length; y++) {
-    Label label = new Label(gameSpace[y][x]);
-    pane.add(label, x, y);
+    if (gameSpace[y][x].equals(("!@# "))) {
+
+
+     Text label = new Text(gameSpace[y][x]);
+     label.setId("label");
+     pane.add(label, y, x);
+    } else {
+
+
+     Hyperlink realWords = new Hyperlink(gameSpace[y][x]);
+     realWords.setId("hyperlink");
+     realWords.setTextFill(Color.WHITE);
+     pane.add(realWords, y, x);
+
+     realWords.setOnAction((ActionEvent e) -> {
+         Label sims = new Label("There are " + LD(realWords.getText(), winWord) + " similarities.");
+         sims.setId("label");
+         pane.getChildren().remove(sims);
+         pane.add(sims, 20, 0);
+         
+         System.out.println("There are " + LD(realWords.getText(), winWord) + " similarities.");
+     });
+
+     StackPane root = new StackPane();
+     root.setId("root");
+     root.getChildren().add(pane);
+     Scene scene = new Scene(root, 1000, 400);
+     scene.getStylesheets().add("styling.css");
+     primaryStage.setTitle("Null n Void");
+
+     primaryStage.setScene(scene);
+     primaryStage.show();
+
+
+     /*
+      * @param args the command line arguments
+      * @throws java.io.IOException
+      
+      */
+    }
    }
   }
-  StackPane root = new StackPane();
-  //root.setId("root");
-  root.getChildren().add(pane);
-  Scene scene = new Scene(root, 1000, 400);
-  //scene.getStylesheets().add("styling.css");
-  primaryStage.setTitle("Null n Void");
-
-  primaryStage.setScene(scene);
-  primaryStage.show();
  }
-
- /**
-  * @param args the command line arguments
-  * @throws java.io.IOException
-  
-  */
  public static void main(String[] args) throws IOException {
-  
-     launch(args);
+
+  launch(args);
 
   //Test Output
   //System.out.println(fileWord10.toUpperCase());
  }
+
+
+
  private static int Minimum(int a, int b, int c) {
   int mi;
   mi = a;
@@ -121,11 +158,6 @@ public class NullnVoid extends Application {
 
  }
 
- public static void createGameSpace() {
-
-
- }
- 
  public void gameSpaceRandomizer() throws IOException {
   //int rWord = (int)(Math.random() * 50);
   // System.out.println(rWord);
@@ -146,18 +178,11 @@ public class NullnVoid extends Application {
   //String fileWord14 = Files.readAllLines(Paths.get("char14.txt")).get(rWord);
   //  String s = JOptionPane.showInputDialog("This String will compare with String t");
   //   String t = JOptionPane.showInputDialog("This String will compare with String s");
-
   //Runs 2 Strings through the comparrison
-
   // System.out.println(s);
   //   System.out.println(t);
   //  System.out.println(LD(s,t));
-
   //declaring and initializing needed variables
-  int rows = 7;
-  int columns = 7;
-  int randomNum1 = (int)(Math.random() * 7);
-  int randomNum2 = (int)(Math.random() * 7);
 
   //fills the ArrayList words with the words from char3.txt
   Scanner x;
@@ -173,37 +198,62 @@ public class NullnVoid extends Application {
   //shuffles the char3.txt words in the ArrayList which was made above and filled
   //with words from char3.txt
   Collections.shuffle(words);
-System.out.println(words);
+  System.out.println(words);
 
-  //sets the 0th index word as the winWord which is okay because it is
-  //shuffled everytime
-  String winWord = words.get(0).toUpperCase();
+  /*sets the 0th index word as the winWord which is okay because it is
+  shuffled everytime */
+  winWord = words.get(0).toUpperCase();
   System.out.println("Win word is " + winWord); //for testing purposes
 
   gameSpace = new String[7][7];
 
   // below code fills an array with random symbols
-  for (int i = 0; i < rows; i++)
-   for (int j = 0; j < columns; j++)
-    gameSpace[i][j] = "!@#%$#@#@$#%&     ";
+  fillSymbols();
 
   //below code selects a random array spot to put the win word
-  gameSpace[randomNum1][randomNum2] = "!@#%$#@" + winWord + "$#%&";
+  setWinWord(winWord);
 
   //populates the rest of the array with random words from the txt file
+  fillRandomWords(words);
+
+  /*prints out array in a neater way than on one line, it stacks
+  the rows on top of eachother */
+  System.out.println(Arrays.deepToString(gameSpace).replace("], ", "]\n").replace("[[", "[").replace("]]", "]").replace(",", ""));
+
+
+  /*code to create matrix of random words to display and make them clickable
+  random spot should be same string as the fileWordn (fileWord3...fileWord4...)*/
+ }
+
+ public void fillSymbols() {
+  for (int i = 0; i < rows; i++)
+   for (int j = 0; j < columns; j++)
+
+    gameSpace[i][j] = "!@# ";
+
+ }
+
+ public void setWinWord(String winWord) {
+  //below code selects a random array spot to put the win word
+  String winnerWord = winWord;
+  int randomNum1 = (int)(Math.random() * 7);
+  int randomNum2 = (int)(Math.random() * 7);
+
+  gameSpace[randomNum1][randomNum2] = winnerWord;
+ }
+
+
+ public void fillRandomWords(ArrayList words) {
+  ArrayList < String > randomWords = words;
   for (int i = 1; i < 12; i++) {
    int randomNum3 = (int)(Math.random() * 7);
    int randomNum4 = (int)(Math.random() * 7);
-   gameSpace[randomNum3][randomNum4] = "!@#%$#@" + words.get(i).toUpperCase() + "$#%&";
-   System.out.println(words.get(i).toUpperCase());
+   gameSpace[randomNum3][randomNum4] = randomWords.get(i).toUpperCase();
+   System.out.println(randomWords.get(i).toUpperCase());
   }
-
-  //prints out array in a neater way than on one line, it stacks
-  //the rows on top of eachother 
-  System.out.println(Arrays.deepToString(gameSpace).replace("], ", "]\n").replace("[[", "[").replace("]]", "]").replace(",", ""));
-  
-
-  //code to create matrix of random words to display and make them clickable
-  //random spot should be same string as the fileWordn (fileWord3...fileWord4...)
  }
+
+
+
+
 }
