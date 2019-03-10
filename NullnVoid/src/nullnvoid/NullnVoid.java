@@ -29,64 +29,52 @@ import javafx.stage.Stage;
  *
  * @author dharb
  */
+
+/* TODO
+1. Method to track lives and end game if you run out
+2. Track progress and check to see if you win and then react accordingly (changing to next level)
+3. Method to increase difficulty
+BUGS
+1. *FIXED* (Similarity label not removing, stacked on top of each other 
+2. *FIXED* winWord can be hidden by fillRandomWords();
+3. fillWords may not have any similarities to winWord
+*/
+
 public class NullnVoid extends Application {
  String[][] gameSpace = new String[7][7];
  int rows = 7;
  int columns = 7;
  String winWord;
-
+ Text sims = new Text("");
+ GridPane pane = new GridPane();
+ ArrayList < String > words = new ArrayList < > ();
  @Override
  public void start(Stage primaryStage) throws IOException {
   gameSpaceRandomizer();
 
   //Creating the gridpane and adding labels to it using the gameSpace array
-  GridPane pane = new GridPane();
 
-  for (int x = 0; x < gameSpace.length; x++) {
-   for (int y = 0; y < gameSpace.length; y++) {
-    if (gameSpace[y][x].equals(("!@# "))) {
+  createGridPane(pane);
+  StackPane root = new StackPane();
+  root.setId("root");
+  root.getChildren().add(pane);
+  Scene scene = new Scene(root, 1000, 400);
+  scene.getStylesheets().add("styling.css");
+  primaryStage.setTitle("Null n Void");
 
-
-     Text label = new Text(gameSpace[y][x]);
-     label.setId("label");
-     pane.add(label, y, x);
-    } else {
-
-
-     Hyperlink realWords = new Hyperlink(gameSpace[y][x]);
-     realWords.setId("hyperlink");
-     realWords.setTextFill(Color.WHITE);
-     pane.add(realWords, y, x);
-
-     realWords.setOnAction((ActionEvent e) -> {
-         Label sims = new Label("There are " + LD(realWords.getText(), winWord) + " similarities.");
-         sims.setId("label");
-         pane.getChildren().remove(sims);
-         pane.add(sims, 20, 0);
-         
-         System.out.println("There are " + LD(realWords.getText(), winWord) + " similarities.");
-     });
-
-     StackPane root = new StackPane();
-     root.setId("root");
-     root.getChildren().add(pane);
-     Scene scene = new Scene(root, 1000, 400);
-     scene.getStylesheets().add("styling.css");
-     primaryStage.setTitle("Null n Void");
-
-     primaryStage.setScene(scene);
-     primaryStage.show();
+  primaryStage.setScene(scene);
+  primaryStage.show();
 
 
-     /*
-      * @param args the command line arguments
-      * @throws java.io.IOException
-      
-      */
-    }
-   }
-  }
+  /*
+   * @param args the command line arguments
+   * @throws java.io.IOException
+   
+   */
  }
+
+
+
  public static void main(String[] args) throws IOException {
 
   launch(args);
@@ -95,7 +83,39 @@ public class NullnVoid extends Application {
   //System.out.println(fileWord10.toUpperCase());
  }
 
+ public void createGridPane(GridPane pane) {
+  /*checks if each index equals !@#, then adds it as text normally
+       if not, then it adds it as a hyperlink so we can click on it
+       and use the onAction event
+       */
+  for (int x = 0; x < gameSpace.length; x++) {
+   for (int y = 0; y < gameSpace.length; y++) {
+    if (gameSpace[y][x].equals(("!@# "))) {
 
+     Text label = new Text(gameSpace[y][x]);
+     label.setId("label");
+     pane.add(label, y, x);
+    } else {
+
+     Hyperlink realWords = new Hyperlink(gameSpace[y][x]);
+     realWords.setId("hyperlink");
+     realWords.setTextFill(Color.WHITE);
+     pane.add(realWords, y, x);
+     sims = new Text("There are " + LD(realWords.getText(), winWord) + " similarities.");
+
+     realWords.setOnAction((ActionEvent e) -> {
+      pane.getChildren().remove(sims);
+      sims = new Text("There are " + LD(realWords.getText(), winWord) + " similarities.");
+      sims.setId("label");
+      pane.add(sims, 20, 0);
+
+      System.out.println("There are " + LD(realWords.getText(), winWord) + " similarities.");
+     });
+
+    }
+   }
+  }
+ }
 
  private static int Minimum(int a, int b, int c) {
   int mi;
@@ -184,41 +204,22 @@ public class NullnVoid extends Application {
   //  System.out.println(LD(s,t));
   //declaring and initializing needed variables
 
-  //fills the ArrayList words with the words from char3.txt
-  Scanner x;
-  x = new Scanner(new File("char3.txt"));
 
-  ArrayList < String > words = new ArrayList < > ();
-
-  while (x.hasNext()) {
-   String nextWord = x.next();
-   words.add(nextWord);
-  }
-
-  //shuffles the char3.txt words in the ArrayList which was made above and filled
-  //with words from char3.txt
-  Collections.shuffle(words);
-  System.out.println(words);
-
-  /*sets the 0th index word as the winWord which is okay because it is
-  shuffled everytime */
-  winWord = words.get(0).toUpperCase();
-  System.out.println("Win word is " + winWord); //for testing purposes
+  /* fills the ArrayList from the file, shuffles the words in Collection, and then
+       sets the winWord to index 0 for easy access*/
+  fillArray();
 
   gameSpace = new String[7][7];
 
   // below code fills an array with random symbols
   fillSymbols();
 
-  //below code selects a random array spot to put the win word
-  setWinWord(winWord);
-
   //populates the rest of the array with random words from the txt file
   fillRandomWords(words);
 
-  /*prints out array in a neater way than on one line, it stacks
-  the rows on top of eachother */
-  System.out.println(Arrays.deepToString(gameSpace).replace("], ", "]\n").replace("[[", "[").replace("]]", "]").replace(",", ""));
+  //below code selects a random array spot to put the win word
+  setWinWord(winWord);
+
 
 
   /*code to create matrix of random words to display and make them clickable
@@ -251,6 +252,30 @@ public class NullnVoid extends Application {
    gameSpace[randomNum3][randomNum4] = randomWords.get(i).toUpperCase();
    System.out.println(randomWords.get(i).toUpperCase());
   }
+ }
+
+ public void fillArray() throws IOException {
+  //fills the ArrayList words with the words from char3.txt
+  Scanner x;
+  x = new Scanner(new File("char3.txt"));
+
+  words = new ArrayList < > ();
+
+  while (x.hasNext()) {
+   String nextWord = x.next();
+   words.add(nextWord);
+  }
+
+  //shuffles the char3.txt words in the ArrayList which was made above and filled
+  //with words from char3.txt
+  Collections.shuffle(words);
+  System.out.println(words);
+
+  /*sets the 0th index word as the winWord which is okay because it is
+  shuffled everytime */
+  winWord = words.get(0).toUpperCase();
+  System.out.println("Win word is " + winWord); //for testing purposes
+
  }
 
 
