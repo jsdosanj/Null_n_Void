@@ -10,7 +10,6 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,7 +22,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 
 /**
  *
@@ -42,8 +40,6 @@ BUGS
 
 public class NullnVoid extends Application {
  String[][] gameSpace = new String[7][7];
- int rows = 7;
- int columns = 7;
  String winWord;
  Text sims = new Text("");
  GridPane pane = new GridPane();
@@ -53,7 +49,6 @@ public class NullnVoid extends Application {
   gameSpaceRandomizer();
 
   //Creating the gridpane and adding labels to it using the gameSpace array
-
   createGridPane(pane);
   StackPane root = new StackPane();
   root.setId("root");
@@ -61,10 +56,8 @@ public class NullnVoid extends Application {
   Scene scene = new Scene(root, 1000, 400);
   scene.getStylesheets().add("styling.css");
   primaryStage.setTitle("Null n Void");
-
   primaryStage.setScene(scene);
   primaryStage.show();
-
 
   /*
    * @param args the command line arguments
@@ -73,10 +66,7 @@ public class NullnVoid extends Application {
    */
  }
 
-
-
  public static void main(String[] args) throws IOException {
-
   launch(args);
 
   //Test Output
@@ -111,7 +101,6 @@ public class NullnVoid extends Application {
 
       System.out.println("There are " + LD(realWords.getText(), winWord) + " similarities.");
      });
-
     }
    }
   }
@@ -202,11 +191,9 @@ public class NullnVoid extends Application {
   // System.out.println(s);
   //   System.out.println(t);
   //  System.out.println(LD(s,t));
-  //declaring and initializing needed variables
-
 
   /* fills the ArrayList from the file, shuffles the words in Collection, and then
-       sets the winWord to index 0 for easy access*/
+   sets the winWord to index 0 for easy access*/
   fillArray();
 
   gameSpace = new String[7][7];
@@ -277,8 +264,4 @@ public class NullnVoid extends Application {
   System.out.println("Win word is " + winWord); //for testing purposes
 
  }
-
-
-
-
 }
