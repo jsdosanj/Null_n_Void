@@ -1,22 +1,14 @@
 package nullnvoid;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -33,7 +25,7 @@ import javafx.stage.Stage;
 2. Track progress and check to see if you win and then react accordingly (changing to next level)
 3. Method to increase difficulty
 BUGS
-1. *FIXED* (Similarity label not removing, stacked on top of each other 
+1. *FIXED* Similarity label not removing, stacked on top of each other 
 2. *FIXED* winWord can be hidden by fillRandomWords();
 3. fillWords may not have any similarities to winWord
 */
@@ -44,8 +36,34 @@ public class NullnVoid extends Application {
  Text sims = new Text("");
  GridPane pane = new GridPane();
  ArrayList < String > words = new ArrayList < > ();
+ ArrayList < String > files = new ArrayList < > ();
+ ArrayList < String > symbols = new ArrayList < > ();
+ Hyperlink realWords = new Hyperlink();
+ int counter = 0;
+ int count = 0;
  @Override
+
  public void start(Stage primaryStage) throws IOException {
+  Scanner sc1;
+  sc1 = new Scanner(new File("symbols.txt"));
+
+  symbols = new ArrayList < > ();
+
+  while (sc1.hasNext()) {
+   String nextWord = sc1.next();
+   symbols.add(nextWord);
+  }
+
+  Scanner sc2;
+  sc2 = new Scanner(new File("files.txt"));
+
+  files = new ArrayList < > ();
+
+  while (sc2.hasNext()) {
+   String nextWord = sc2.next();
+   files.add(nextWord);
+  }
+  //testing System.out.println(files);
   gameSpaceRandomizer();
 
   //Creating the gridpane and adding labels to it using the gameSpace array
@@ -53,7 +71,7 @@ public class NullnVoid extends Application {
   StackPane root = new StackPane();
   root.setId("root");
   root.getChildren().add(pane);
-  Scene scene = new Scene(root, 1000, 400);
+  Scene scene = new Scene(root, 1920, 1080);
   scene.getStylesheets().add("styling.css");
   primaryStage.setTitle("Null n Void");
   primaryStage.setScene(scene);
@@ -62,7 +80,6 @@ public class NullnVoid extends Application {
   /*
    * @param args the command line arguments
    * @throws java.io.IOException
-   
    */
  }
 
@@ -74,13 +91,14 @@ public class NullnVoid extends Application {
  }
 
  public void createGridPane(GridPane pane) {
-  /*checks if each index equals !@#, then adds it as text normally
+  /*checks if each index char equals !, then adds it as text normally
        if not, then it adds it as a hyperlink so we can click on it
        and use the onAction event
        */
+
   for (int x = 0; x < gameSpace.length; x++) {
    for (int y = 0; y < gameSpace.length; y++) {
-    if (gameSpace[y][x].equals(("!@# "))) {
+    if (gameSpace[y][x].charAt(0) == '!') {
 
      Text label = new Text(gameSpace[y][x]);
      label.setId("label");
@@ -94,12 +112,20 @@ public class NullnVoid extends Application {
      sims = new Text("There are " + LD(realWords.getText(), winWord) + " similarities.");
 
      realWords.setOnAction((ActionEvent e) -> {
+      int similarities;
+      similarities = LD(realWords.getText(), winWord);
       pane.getChildren().remove(sims);
-      sims = new Text("There are " + LD(realWords.getText(), winWord) + " similarities.");
+      sims = new Text("There are " + similarities + " similarities.");
       sims.setId("label");
       pane.add(sims, 20, 0);
-
-      System.out.println("There are " + LD(realWords.getText(), winWord) + " similarities.");
+      System.out.println("There are " + similarities + " similarities.");
+      if (similarities == winWord.length()) {
+       try {
+        increaseDifficulty();
+       } catch (IOException ex) {
+        System.out.println("oops");
+       }
+      }
      });
     }
    }
@@ -168,6 +194,7 @@ public class NullnVoid extends Application {
  }
 
  public void gameSpaceRandomizer() throws IOException {
+
   //int rWord = (int)(Math.random() * 50);
   // System.out.println(rWord);
   //Put sWord in loop to generate the "Other Words" Must make nested loop for correct word to be randomly placed in a table 
@@ -206,19 +233,21 @@ public class NullnVoid extends Application {
 
   //below code selects a random array spot to put the win word
   setWinWord(winWord);
-
-
-
-  /*code to create matrix of random words to display and make them clickable
-  random spot should be same string as the fileWordn (fileWord3...fileWord4...)*/
  }
 
  public void fillSymbols() {
-  for (int i = 0; i < rows; i++)
-   for (int j = 0; j < columns; j++)
+  for (int i = 0; i < 7; i++)
+   for (int j = 0; j < 7; j++)
+    gameSpace[i][j] = symbols.get(count) + " ";
+  count++;
+ }
 
-    gameSpace[i][j] = "!@# ";
-
+ public void increaseDifficulty() throws IOException {
+  clearArray();
+  pane.getChildren().clear();
+  counter++;
+  gameSpaceRandomizer();
+  createGridPane(pane);
  }
 
  public void setWinWord(String winWord) {
@@ -226,7 +255,6 @@ public class NullnVoid extends Application {
   String winnerWord = winWord;
   int randomNum1 = (int)(Math.random() * 7);
   int randomNum2 = (int)(Math.random() * 7);
-
   gameSpace[randomNum1][randomNum2] = winnerWord;
  }
 
@@ -243,8 +271,11 @@ public class NullnVoid extends Application {
 
  public void fillArray() throws IOException {
   //fills the ArrayList words with the words from char3.txt
+  String y = files.get(counter);
+  System.out.print(counter);
+
   Scanner x;
-  x = new Scanner(new File("char3.txt"));
+  x = new Scanner(new File(y));
 
   words = new ArrayList < > ();
 
@@ -262,6 +293,12 @@ public class NullnVoid extends Application {
   shuffled everytime */
   winWord = words.get(0).toUpperCase();
   System.out.println("Win word is " + winWord); //for testing purposes
-
+ }
+ 
+ public void clearArray() {
+  for (int i = 0; i < words.size(); i++) {
+   words.remove(i);
+  }
+  
  }
 }
