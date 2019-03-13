@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -21,9 +23,10 @@ import javafx.stage.Stage;
  */
 
 /* TODO
-1. Method to track lives and end game if you run out
-2. Track progress and check to see if you win and then react accordingly (changing to next level)
-3. Method to increase difficulty
+1. *DONE* Method to track lives and end game if you run out
+2. *DONE* Track progress and check to see if you chose winWord and then increase difficulty
+3. *DONE* Method to increase difficulty
+4. More to come
 BUGS
 1. *FIXED* Similarity label not removing, stacked on top of each other 
 2. *FIXED* winWord can be hidden by fillRandomWords();
@@ -39,35 +42,22 @@ public class NullnVoid extends Application {
  ArrayList < String > files = new ArrayList < > ();
  ArrayList < String > symbols = new ArrayList < > ();
  Hyperlink realWords = new Hyperlink();
+ Text amtLives = new Text("");
  int counter = 0;
  int count = 0;
+ int lives = 5;
+ int score = 0;
  @Override
 
  public void start(Stage primaryStage) throws IOException {
-  Scanner sc1;
-  sc1 = new Scanner(new File("symbols.txt"));
+  //fills various ArrayLists with symbols and file names for later use
+  createArrayLists();
 
-  symbols = new ArrayList < > ();
-
-  while (sc1.hasNext()) {
-   String nextWord = sc1.next();
-   symbols.add(nextWord);
-  }
-
-  Scanner sc2;
-  sc2 = new Scanner(new File("files.txt"));
-
-  files = new ArrayList < > ();
-
-  while (sc2.hasNext()) {
-   String nextWord = sc2.next();
-   files.add(nextWord);
-  }
-  //testing System.out.println(files);
   gameSpaceRandomizer();
 
   //Creating the gridpane and adding labels to it using the gameSpace array
   createGridPane(pane);
+
   StackPane root = new StackPane();
   root.setId("root");
   root.getChildren().add(pane);
@@ -85,9 +75,6 @@ public class NullnVoid extends Application {
 
  public static void main(String[] args) throws IOException {
   launch(args);
-
-  //Test Output
-  //System.out.println(fileWord10.toUpperCase());
  }
 
  public void createGridPane(GridPane pane) {
@@ -110,28 +97,71 @@ public class NullnVoid extends Application {
      realWords.setTextFill(Color.WHITE);
      pane.add(realWords, y, x);
      sims = new Text("There are " + LD(realWords.getText(), winWord) + " similarities.");
+     amtLives = new Text("YOU HAVE " + lives + " LIVES LEFT!");
 
+     //on click action event that handles most of the game, displays the progress
+     //of similarities and lives
      realWords.setOnAction((ActionEvent e) -> {
+
       int similarities;
       similarities = LD(realWords.getText(), winWord);
       pane.getChildren().remove(sims);
+      pane.getChildren().remove(amtLives);
+      amtLives = new Text("YOU HAVE " + lives + " LIVES LEFT!");
+      amtLives.setId("label");
       sims = new Text("There are " + similarities + " similarities.");
       sims.setId("label");
+      pane.add(amtLives, 25, 0);
       pane.add(sims, 20, 0);
       System.out.println("There are " + similarities + " similarities.");
+
+      //when the player chooses the winWord, it increasesDifficulty by adding
+      //the longer words
       if (similarities == winWord.length()) {
        try {
         increaseDifficulty();
        } catch (IOException ex) {
-        System.out.println("oops");
+        Logger.getLogger(NullnVoid.class.getName()).log(Level.SEVERE, null, ex);
        }
+      } else {
+       lives--;
+
       }
+      if (lives < 0) {
+       pane.getChildren().clear();
+       Text loser = new Text("YOU LOSE!");
+       loser.setId("label");
+       pane.getChildren().add(loser);
+       Text scoreAmt = new Text("YOUR SCORE WAS " + score);
+       scoreAmt.setId("label");
+       pane.add(scoreAmt, 5, 0);
+      }
+
      });
     }
    }
   }
  }
+ public void createArrayLists() throws IOException {
+  Scanner sc1;
+  sc1 = new Scanner(new File("symbols.txt"));
+  symbols = new ArrayList < > ();
 
+  while (sc1.hasNext()) {
+   String nextWord = sc1.next();
+   symbols.add(nextWord);
+  }
+
+  Scanner sc2;
+  sc2 = new Scanner(new File("files.txt"));
+
+  files = new ArrayList < > ();
+
+  while (sc2.hasNext()) {
+   String nextWord = sc2.next();
+   files.add(nextWord);
+  }
+ }
  private static int Minimum(int a, int b, int c) {
   int mi;
   mi = a;
@@ -246,6 +276,7 @@ public class NullnVoid extends Application {
   clearArray();
   pane.getChildren().clear();
   counter++;
+  score++;
   gameSpaceRandomizer();
   createGridPane(pane);
  }
@@ -294,11 +325,11 @@ public class NullnVoid extends Application {
   winWord = words.get(0).toUpperCase();
   System.out.println("Win word is " + winWord); //for testing purposes
  }
- 
+
  public void clearArray() {
   for (int i = 0; i < words.size(); i++) {
    words.remove(i);
   }
-  
+
  }
 }
