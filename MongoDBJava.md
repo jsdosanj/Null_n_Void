@@ -13,8 +13,8 @@ Connecting to a named MongoDB server listening on the default port (27017):
 Or:
 `MongoClient mongoClient = new MongoClient("db1.server.com");`
 Connecting to a named MongoDB server listening on a specific port: 
-`MongoClient mongoClient = new MongoClient("localhost", 27017);`
-Or:
+`MongoClient mongoClient = new MongoClient("localhost", 27017);
+`Or:
 `MongoClient mongoClient = new MongoClient("db1.server.com", 27018);`
 Connecting to a replica set of servers:
 `List<ServerAddress> seeds = new ArrayList<ServerAddress>();
