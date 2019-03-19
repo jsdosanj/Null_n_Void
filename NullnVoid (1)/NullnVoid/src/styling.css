@@ -1,0 +1,26 @@
+#root {
+-fx-background-color: linear-gradient(rgba(0,150,0,0.75), black 120%);
+-fx-text-inner-color: white;
+}
+
+#label {
+-fx-font-family: monospace;
+-fx-font-size: 24;
+-fx-fill: #ffffff;
+}
+
+#hyperlink {
+-fx-font-family: monospace;
+-fx-font-size: 20;
+-fx-fill: #ffffff;
+-fx-border-color: transparent;
+-fx-padding: 4 0 4 0;
+-fx-text-fill: #ffffff;
+}
+
+#text {
+-fx-font-family: monospace;
+-fx-font-size: 24;
+-fx-fill: #ffffff;
+}
+
