@@ -1,0 +1,61 @@
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.3.1/stitch.js"></script>
+<script>
+  const client = stitch.Stitch.initializeDefaultAppClient('null_n_void-ayzen');
+
+  const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'Cluster0').db('<DATABASE>');
+
+  client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
+    db.collection('<COLLECTION>').updateOne({owner_id: client.auth.user.id}, {$set:{number:42}}, {upsert:true})
+  ).then(() =>
+    db.collection('<COLLECTION>').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
+  ).then(docs => {
+      console.log("Found docs", docs)
+      console.log("[MongoDB Stitch] Connected to Stitch")
+  }).catch(err => {
+    console.error(err)
+  });
+</script>
+</head>
+
+<body>
+
+	<header>
+		Welcome to the game!
+	</header>
+	
+	<div class="pg_thanks">
+		<p>
+			Thank you so much for playing our game! We put many hours of work and we hope your enjoy your experience.
+			Don't worry, even though it may feel like you're hacking, you aren't that smart.
+		</p>
+	</div>
+	
+	<div class="pg_rules">
+		<header>
+			Rules
+		</header>
+		
+		<ol>
+			<li>Each level will present you with a list of words surrounded by characters,
+			    your job is to find out which word hacks the terminal and moves you into the next level.</li>
+			<li>With the selection of each word inside the level, you will be presented with a 
+			    probability of that word being correct. Use these to help you select the correct word.</li>
+			<li>You will lose the game once you have run out of guesses on your current level, so be smart!</li>
+			<li>Finally, as you progress through higher levels. The words will become longer, which makes 
+			    it harder for you to guess. Good luck!</li>
+		</ol>
+	</div>
+	
+	<div class="start_button">
+		<a href="/Null_n_Void/tree/master/NullnVoid/dist/NullnVoid.html"> Play Game </a>
+	</div>
+	
+	<div class="home_button">
+		<a href="index.html"> Home </a>
+	</div>
+</body>
+</html>

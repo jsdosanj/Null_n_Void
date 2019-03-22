@@ -1,0 +1,169 @@
+body
+{
+	background-color: black;
+	background-image: radial-gradient(rgba(0,150,0,0.75), black 120%);
+	height: 100vh;
+}
+p
+{
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+	text-align: Center;
+}
+.nav-menu
+{
+	text-align: center;
+	position: relative;
+	top: 50px;
+}
+.nav-menu li
+{
+	padding: 25px;
+	display: inline-block;
+}
+.nav-menu li a
+{
+	text-decoration: none;
+	color: white;
+	text-align: center;
+	font-size: 18px;
+	font-size: 2vw;
+	font-family: Courier, monospace;
+}
+.nav-menu li a:hover
+{
+	background: white;
+	color: black;
+}
+.pg_thanks
+{
+	position: absolute;
+	top: 225px;
+}
+header
+{
+	font-family: Courier, monospace;
+	font-size: 26;
+	color: white;
+	text-align: Center;
+	text-shadow: 0 0 20px #C8C8C8;
+}
+.pg_rules
+{
+	position: relative;
+	top: 325px;
+}
+.pg_rules ol 
+{
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+}
+.start_button
+{
+	text-align: center;
+	position: relative;
+	top: -100px;
+}
+.start_button a 
+{
+	text-decoration: none;
+	font-family: Courier, monospace;
+	font-size: 48;
+	color: white;
+	text-align: Center;
+}
+.start_button a:hover
+{
+	background: white;
+	color: black;
+}
+.under_buttons
+{
+	text-align: center;
+	position: relative;
+	top: 100px;
+}
+.column_header_pn p 
+{
+	float: left;
+	margin-left: 200px;
+}
+.column_header_sc p
+{
+	float: right;
+	margin-right: 200px;
+}
+.faq_question_one ul li 
+{
+	list-style: none;
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+}
+.faq_answers_lang ul li 
+{
+	list-style: none;
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+	margin-left: 100px;
+}
+.faq_question_two ul li
+{
+	list-style: none;
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+}
+.faq_answers_update ul li
+{
+	list-style: none;
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+	margin-left: 100px;
+}
+.index_title header
+{
+	font-size: 200;
+}
+.faq_question_three ul li
+{
+	list-style: none;
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+}
+.faq_answers_inspiration ul li 
+{
+	list-style: none;
+	font-family: Courier, monospace;
+	font-size: 18;
+	color: white;
+	margin-left: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
