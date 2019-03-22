@@ -17,11 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/**
- *
- * @author dharb
- */
-
 /* TODO
 1. *DONE* Method to track lives and end game if you run out
 2. *DONE* Track progress and check to see if you chose winWord and then increase difficulty
@@ -50,7 +45,8 @@ public class NullnVoid extends Application {
  @Override
 
  public void start(Stage primaryStage) throws IOException {
-  //fills various ArrayLists with symbols and file names for later use
+  
+//fills various ArrayLists with symbols and file names for later use
   createArrayLists();
 
   gameSpaceRandomizer();
@@ -75,6 +71,7 @@ public class NullnVoid extends Application {
 
  public static void main(String[] args) throws IOException {
   launch(args);
+
  }
 
  public void createGridPane(GridPane pane) {
@@ -330,6 +327,5 @@ public class NullnVoid extends Application {
   for (int i = 0; i < words.size(); i++) {
    words.remove(i);
   }
-
  }
 }
